@@ -9,12 +9,7 @@ import UIKit
 
 class AccountSummaryViewController: UIViewController {
     
-    let games = [
-        "pacman",
-        "dino",
-        "puzzle"
-    ]
-    
+    var account: [AccountSummaryCell.ViewModel] = []
     var tableView = UITableView()
     
     override func viewDidLoad() {
@@ -27,6 +22,7 @@ extension AccountSummaryViewController {
     private func setup() {
         setuptableview()
         setupTableHeaderView()
+        fetchdata()
     }
     
     private func setuptableview() {
@@ -55,17 +51,32 @@ extension AccountSummaryViewController {
 
 extension AccountSummaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard !account.isEmpty else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: AccountSummaryCell.reuseID, for: indexPath) as! AccountSummaryCell
+        let account = account[indexPath.row]
+        cell.configure(with: account)
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return games.count
+        return account.count
     }
 }
 
 extension AccountSummaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+    }
+}
+
+extension AccountSummaryViewController {
+    private func fetchdata() {
+        let saving = AccountSummaryCell.ViewModel(accountType: .Banking, accountName: "Basic Savings")
+        let visa = AccountSummaryCell.ViewModel(accountType: .CreditCard, accountName: "Visa Avion Card")
+        let investment = AccountSummaryCell.ViewModel(accountType: .Investment, accountName: "Tax-Free Saver")
+        
+        account.append(saving)
+        account.append(visa)
+        account.append(investment)
     }
 }
