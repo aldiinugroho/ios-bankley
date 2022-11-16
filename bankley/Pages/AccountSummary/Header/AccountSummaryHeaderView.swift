@@ -19,6 +19,16 @@ class AccountSummaryHeaderView: UIView {
     
     let imageBoxView = UIView()
     
+    struct ViewModel {
+        let welcomeMessage: String
+        let name: String
+        let date: Date
+        
+        var dateFormatted: String {
+            return date.monthDayYearString
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         style()
@@ -81,5 +91,13 @@ extension AccountSummaryHeaderView {
             descnimageStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: self.leadingAnchor, multiplier: 2),
             self.trailingAnchor.constraint(equalToSystemSpacingAfter: descnimageStackView.trailingAnchor, multiplier: 2)
         ])
+    }
+}
+
+extension AccountSummaryHeaderView {
+    func configure(viewModel: ViewModel) {
+        greetingLabel.text = viewModel.welcomeMessage
+        nameLabel.text = viewModel.name
+        dateLabel.text = viewModel.dateFormatted
     }
 }
